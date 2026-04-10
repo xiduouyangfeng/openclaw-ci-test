@@ -1,5 +1,5 @@
-// 故意写错的代码
+// 修复后的代码
 function test() {
-    console.log('missing closing brace
-    return undefined_variable;
+    console.log('fixed closing brace');
+    return 'defined_value';
 }
