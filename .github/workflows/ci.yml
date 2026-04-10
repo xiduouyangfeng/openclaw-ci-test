@@ -24,16 +24,13 @@ jobs:
           npm install
         fi
     
-    - name: Run tests
+    - name: Run tests (故意失败)
       run: |
         echo "🧪 Running tests..."
-        # 模拟测试（暂时用 echo，实际项目替换为真实测试命令）
-        # npm test
-        echo "✅ Tests passed"
+        echo "❌ TEST FAILED: Intentional failure for testing"
+        exit 1
     
     - name: Build
       run: |
         echo "🔨 Building..."
-        # 模拟构建（暂时用 echo，实际项目替换为真实构建命令）
-        # npm run build
         echo "✅ Build successful"
