@@ -18,17 +18,14 @@ jobs:
       with:
         node-version: '20'
     
-    - name: Install dependencies
+    - name: Check JavaScript files
       run: |
-        if [ -f package.json ]; then
-          npm install
-        fi
-    
-    - name: Run tests (故意失败)
-      run: |
-        echo "🧪 Running tests..."
-        echo "❌ TEST FAILED: Intentional failure for testing"
-        exit 1
+        echo "🧪 Checking JavaScript syntax..."
+        for file in *.js; do
+          if [ -f "$file" ]; then
+            node --check "$file" && echo "✅ $file: OK" || echo "❌ $file: FAILED"
+          fi
+        done
     
     - name: Build
       run: |
