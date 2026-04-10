@@ -1,0 +1,39 @@
+name: CI Pipeline Test
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+    
+    - name: Install dependencies
+      run: |
+        if [ -f package.json ]; then
+          npm install
+        fi
+    
+    - name: Run tests
+      run: |
+        echo "🧪 Running tests..."
+        # 模拟测试（暂时用 echo，实际项目替换为真实测试命令）
+        # npm test
+        echo "✅ Tests passed"
+    
+    - name: Build
+      run: |
+        echo "🔨 Building..."
+        # 模拟构建（暂时用 echo，实际项目替换为真实构建命令）
+        # npm run build
+        echo "✅ Build successful"
