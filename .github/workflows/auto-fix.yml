@@ -1,0 +1,37 @@
+name: CI/CD Auto Fix
+
+on:
+  workflow_run:
+    workflows: ["CI Pipeline Test"]
+    types: [completed]
+
+jobs:
+  auto-fix:
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Notify OpenClaw
+      run: |
+        echo "❌ CI Pipeline 失败，触发 OpenClaw 自动修复..."
+        
+        curl -X POST http://47.77.182.44:18789/webhook \
+          -H "Content-Type: application/json" \
+          -H "X-GitHub-Event: workflow_run" \
+          -d '{
+            "action": "completed",
+            "workflow_run": {
+              "id": ${{ github.event.workflow_run.id }},
+              "name": "${{ github.event.workflow_run.name }}",
+              "conclusion": "${{ github.event.workflow_run.conclusion }}",
+              "head_branch": "${{ github.event.workflow_run.head_branch }}",
+              "head_sha": "${{ github.event.workflow_run.head_sha }}",
+              "html_url": "${{ github.event.workflow_run.html_url }}"
+            },
+            "repository": {
+              "full_name": "${{ github.repository }}",
+              "html_url": "${{ github.repository.html_url }}"
+            }
+          }'
+        
+        echo "✅ 已通知 OpenClaw"
